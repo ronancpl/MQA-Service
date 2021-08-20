@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
  *
  * @author RonanLana
  */
+@Path("/userdata")
 public class ServiceResources {
     
     @GET

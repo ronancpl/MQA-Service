@@ -10,7 +10,7 @@ import java.util.List;
 
 public class YamlConfig {
 
-    public static final YamlConfig config = fromFile("../HeavenMS/config.yaml");
+    public static final YamlConfig config = fromFile("../../../HeavenMS/config.yaml");
     
     public List<WorldConfig> worlds;
     public ServerConfig server;

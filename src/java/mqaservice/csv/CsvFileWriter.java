@@ -20,22 +20,27 @@ import java.io.PrintWriter;
  */
 public class CsvFileWriter {
     
-    private static void writeCsvContent(PrintWriter printWriter, Object[][] csvFields) {
+    private static void buildCsvContent(StringBuilder sb, Object[][] csvFields) {
         for (Object[] row : csvFields) {
             for (Object s : row) {
-                printWriter.print(s.toString() + ",");
+                sb.append(s.toString() + ",");
             }
-            printWriter.println();
+            sb.append("\n");
         }
+    }
+    
+    public static String buildCsv(Object[] csvHeader, Object[][] csvRows) {
+        StringBuilder sb = new StringBuilder();
+        buildCsvContent(sb, new Object[][]{csvHeader});
+        buildCsvContent(sb, csvRows);   
+        
+        return sb.toString();
     }
     
     public static void writeCsv(String filePath, Object[] csvHeader, Object[][] csvRows) {
         try {
             PrintWriter printWriter = new PrintWriter(filePath, "UTF-8");
-            
-            writeCsvContent(printWriter, new Object[][]{csvHeader});
-            writeCsvContent(printWriter, csvRows);
-
+            printWriter.print(buildCsv(new Object[][]{csvHeader}, csvRows));
             printWriter.close();
         } catch (IOException ioe) {
             ioe.printStackTrace();

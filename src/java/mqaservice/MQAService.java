@@ -28,7 +28,8 @@ public class MQAService {
     
     private static String csvOutputDir = "../MapleQuestAdvisor/lib/userdata/";
 
-    private static void postRates() {
+    public static String csvRates() {
+        String res = "";
         try {
             Connection con = DBConnection.getConnection();
             try {
@@ -38,16 +39,19 @@ public class MQAService {
                 Object[] csvHdr = RatesManipulator.getCsvHeader();
                 Object[] csvRws = RatesManipulator.toCsv(bean);
 
-                CsvFileWriter.writeCsv(csvOutputDir + "rates.csv", csvHdr, new Object[][]{csvRws});
+                res = CsvFileWriter.buildCsv(csvHdr, new Object[][]{csvRws});
             } finally {
                 con.close();
             }    
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
+        
+        return res;
     }
     
-    private static void postCharacter(int cid) {
+    public static String csvCharacter(int cid) {
+        String res = "";
         try {
             Connection con = DBConnection.getConnection();
             try {
@@ -57,16 +61,19 @@ public class MQAService {
                 Object[] csvHdr = CharacterManipulator.getCsvHeader();
                 Object[] csvRws = CharacterManipulator.toCsv(bean);
 
-                CsvFileWriter.writeCsv(csvOutputDir + "character.csv", csvHdr, new Object[][]{csvRws});
+                res = CsvFileWriter.buildCsv(csvHdr, new Object[][]{csvRws});
             } finally {
                 con.close();
             }    
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
+        
+        return res;
     }
     
-    private static void postInventory(int cid) {
+    public static String csvInventory(int cid) {
+        String res = "";
         try {
             Connection con = DBConnection.getConnection();
             try {
@@ -77,16 +84,19 @@ public class MQAService {
 
                 Object[][] csvRws = InventoryManipulator.toCsv(bean);
 
-                CsvFileWriter.writeCsv(csvOutputDir + "inventory.csv", csvHdr, csvRws);
+                res = CsvFileWriter.buildCsv(csvHdr, csvRws);
             } finally {
                 con.close();
             }    
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
+        
+        return res;
     }
     
-    private static void postQuests(int cid) {
+    public static String csvQuests(int cid) {
+        String res = "";
         try {
             Connection con = DBConnection.getConnection();
             try {
@@ -97,13 +107,15 @@ public class MQAService {
 
                 Object[][] csvRws = InventoryManipulator.toCsv(bean);
 
-                CsvFileWriter.writeCsv(csvOutputDir + "quests.csv", new Object[]{"questid", "state"}, csvRws);
+                res = CsvFileWriter.buildCsv(new Object[]{"questid", "state"}, csvRws);
             } finally {
                 con.close();
             }    
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
+        
+        return res;
     }
     
     public static void main(String[] args) {
@@ -114,10 +126,10 @@ public class MQAService {
             cid = 1;
         }
         
-        postRates();
-        postCharacter(cid);
-        postInventory(cid);
-        postQuests(cid);
+        csvRates();
+        csvCharacter(cid);
+        csvInventory(cid);
+        csvQuests(cid);
     }
     
 }
